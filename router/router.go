@@ -13,6 +13,8 @@ func StartApp() *gin.Engine {
 	{
 		userRouter.POST("/register", controllers.UserRegister)
 		userRouter.POST("/login", controllers.UserLogin)
+		userRouter.PUT("/update-account/:userId", controllers.UserUpdate)
+		userRouter.DELETE("/delete-account/:userId", controllers.UserDelete)
 	}
 
 	categoryRouter := r.Group("/categories")

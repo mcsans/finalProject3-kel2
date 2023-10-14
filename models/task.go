@@ -11,7 +11,7 @@ type Task struct {
 	Description string `gorm:"not null" json:"description" form:"description" valid:"required"`
 	Status      string `gorm:"not null" json:"status" form:"status" valid:"required,matches(1|0)"`
 	UserID      uint
-	CategoryID  uint	 `gorm:"not null" json:"category_id" form:"category_id" valid:"required"`
+	CategoryID  uint	 `json:"category_id" form:"category_id" valid:"required"`
 	User        *User
 	Category    *Category
 }

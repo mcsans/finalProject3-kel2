@@ -34,7 +34,7 @@ func CategoryAuthorization() gin.HandlerFunc {
 			return
 		}
 
-		if Category.UserID == userID {
+		if Category.UserID != userID {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 				"error": "Unauthorized",
 				"message": "you are not allowed to access this data",
@@ -70,7 +70,7 @@ func TaskAuthorization() gin.HandlerFunc {
 			return
 		}
 
-		if Task.UserID == userID {
+		if Task.UserID != userID {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 				"error": "Unauthorized",
 				"message": "you are not allowed to access this data",

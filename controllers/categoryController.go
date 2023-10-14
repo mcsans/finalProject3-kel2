@@ -12,13 +12,13 @@ import (
 	"gorm.io/gorm"
 )
 
-func GetCategory(c *gin.Context) {
-	db := database.GetDB()
-	var categories []models.Category
+	func GetCategory(c *gin.Context) {
+		db := database.GetDB()
+		var categories []models.Category
 
-	db.Preload("Tasks").Find(&categories)
-	c.JSON(http.StatusOK, gin.H{"categories" : categories})
-}
+		db.Preload("Tasks").Find(&categories)
+		c.JSON(http.StatusOK, gin.H{"categories" : categories})
+	}
 
 func GetCategoryById(c *gin.Context) {
 	db := database.GetDB()
@@ -65,7 +65,14 @@ func CreateCategory(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, Category)
+	CategoryResponse := models.CategoryResponse{
+		ID: Category.ID,
+		Type: Category.Type,
+		CreatedAt: Category.CreatedAt,
+		UpdatedAt: Category.UpdatedAt,
+	}
+
+	c.JSON(http.StatusCreated, CategoryResponse)
 }
 
 func UpdateCategory(c *gin.Context) {
@@ -74,7 +81,7 @@ func UpdateCategory(c *gin.Context) {
 	contentType := helpers.GetContentType(c)
 	Category := models.Category{}
 
-	productId, _ := strconv.Atoi(c.Param("productId"))
+	categoryId, _ := strconv.Atoi(c.Param("categoryId"))
 	userID := uint(userData["id"].(float64))
 
 	if contentType == appJSON {
@@ -84,9 +91,9 @@ func UpdateCategory(c *gin.Context) {
 	}
 
 	Category.UserID = userID
-	Category.ID = uint(productId)
+	Category.ID = uint(categoryId)
 
-	err := db.Model(&Category).Where("id = ?", productId).Updates(models.Category{Type: Category.Type}).Error
+	err := db.Model(&Category).Where("id = ?", categoryId).Updates(models.Category{Type: Category.Type}).Error
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -96,23 +103,30 @@ func UpdateCategory(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, Category)
+	CategoryResponse := models.CategoryResponse{
+		ID: Category.ID,
+		Type: Category.Type,
+		CreatedAt: Category.CreatedAt,
+		UpdatedAt: Category.UpdatedAt,
+	}
+
+	c.JSON(http.StatusOK, CategoryResponse)
 }
 
 func DeleteCategory(c *gin.Context) {
 	db := database.GetDB()
-	id := c.Param("id")
+	categoryId := c.Param("categoryId")
 	var category models.Category
 
-	// if err := db.Where("category_id = ?", id).Delete(models.Task{}).Error; err != nil {
-	// 	c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "Gagal menghapus task"})
-	// 	return
-	// }
-
-	if db.Delete(&category, id).RowsAffected == 0 {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": "Tidak dapat menghapus category"})
+	if err := db.Where("category_id = ?", categoryId).Delete(models.Task{}).Error; err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "Failed to delete category"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message" : "Data berhasil dihapus"})
+	if db.Delete(&category, categoryId).RowsAffected == 0 {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": "Failed to delete category"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message" : "Category has been successfully deleted"})
 }

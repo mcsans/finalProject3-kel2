@@ -22,7 +22,7 @@ func StartApp() *gin.Engine {
 		categoryRouter.GET("/:categoryId", controllers.GetCategoryById)
 		categoryRouter.POST("/", controllers.CreateCategory)
 		categoryRouter.PATCH("/:categoryId", middlewares.CategoryAuthorization(), controllers.UpdateCategory)
-		categoryRouter.DELETE("/:categoryId", controllers.DeleteTask)
+		categoryRouter.DELETE("/:categoryId", controllers.DeleteCategory)
 	}
 
 	taskRouter := r.Group("/tasks")

@@ -23,9 +23,9 @@ import (
 func GetCategoryById(c *gin.Context) {
 	db := database.GetDB()
 	var category models.Category
-	id := c.Param("categoryId")
+	categoryId := c.Param("categoryId")
 
-	if err := db.Preload("Tasks").First(&category, id).Error; err != nil {
+	if err := db.Preload("Tasks").First(&category, categoryId).Error; err != nil {
 		switch err {
 			case gorm.ErrRecordNotFound:
 				c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"message": "Data tidak ditemukan"})

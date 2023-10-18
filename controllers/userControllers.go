@@ -40,7 +40,7 @@ func UserRegister(c *gin.Context) {
 		"id": User.ID,
 		"email": User.Email,
 		"full_name": User.FullName,
-		"role": User.Role,
+		"role": "member",
 	})
 }
 

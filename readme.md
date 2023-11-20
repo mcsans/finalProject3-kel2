@@ -1,9 +1,9 @@
-API URL : 
+API URL : <br>
 https://finalproject3-kel2-production.up.railway.app
 
-Admin Credentials:
-Email: admin@mail.com
+Admin Credentials: <br>
+Email: admin@mail.com <br>
 Password: adminadmin
 
-API Documentation:
+API Documentation: <br>
 https://documenter.getpostman.com/view/21400179/2s9YR9XCSK

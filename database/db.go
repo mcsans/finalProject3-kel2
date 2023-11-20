@@ -10,11 +10,11 @@ import (
 )
 
 var (
-	host     = "localhost"
+	host     = "roundhouse.proxy.rlwy.net"
 	user     = "postgres"
-	password = "adminadmin"
-	dbPort   = "5432"
-	dbname   = "db_finalProject3-kel2"
+	password = "Dd*afb5F*1gC66Df5caFEcdgCAC3DBDC"
+	dbPort   = "15087"
+	dbname   = "railway"
 	db       *gorm.DB
 	err			 error
 )
